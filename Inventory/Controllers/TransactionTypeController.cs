@@ -3,97 +3,66 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Inventory.Models;
-[ApiController]
 
-[Route("transaction")]
-public class TransactionController : ControllerBase
+using Inventory.Models;
+// using OfficeOpenXml;
+// using PdfSharpCore.Drawing;
+// using PdfSharpCore.Pdf;
+// using Xceed.Document.NET;
+// using Xceed.Words.NET;
+
+// [Authorize]
+// [Route("api/[controller]")]
+[ApiController]
+// public class HelloWorldController : ControllerBase
+// {
+//     [HttpGet]
+//     public IActionResult Get()
+//     {
+//         return Ok("Helo World");
+//     }
+// }
+
+[Route("transactiontype")]
+public class TransactionTypeController : ControllerBase
 {
 
     private YourDbContextClassName _db = new YourDbContextClassName();
-    private readonly ILogger<TransactionController> _logger;
+    private readonly ILogger<TransactionTypeController> _logger;
 
-    public TransactionController(ILogger<TransactionController> logger)
+    public TransactionTypeController(ILogger<TransactionTypeController> logger)
     {
         _logger = logger;
     }
 
-    public struct TransactionCreate
+    public struct TransactionTypeCreate
     {
-        
-        public int? ProductId { get; set; }
 
-        public int? Quantity { get; set; }
+        public string? Name { get; set; }
 
     }
-        [HttpPost( "BUYING",Name = "BuyProduct")]
+        [HttpPost(Name = "CreateTransactionType")]
 
-        public ActionResult BuyProduct([FromBody] TransactionCreate transactionCreate)
+        public ActionResult CreateTransactionType([FromBody] TransactionTypeCreate transactionTypeCreate)
         {
-            Transaction transaction = new Transaction
+            TransactionType transactiontype = new TransactionType
             {
-                ProductId = transactionCreate.ProductId,
-                Quantity = transactionCreate.Quantity,
-                TransactionTypeId = 1
+                Name = transactionTypeCreate.Name,
             };
 
-            
-            
-            transaction = Transaction.Create( _db, transaction);
-            
-            transaction.Product = _db.Products.Find(transaction.ProductId);
-            return Ok(transaction);
+            transactiontype = TransactionType.Create( _db, transactiontype);
+            return Ok(transactiontype);
         }
-        [HttpPost("FILLPRODUCT",Name = "FillProduct")]
-
-        public ActionResult FillProduct([FromBody] TransactionCreate transactionCreate)
-        {
-            Transaction transaction = new Transaction
-            {
-                ProductId = transactionCreate.ProductId,
-                Quantity = transactionCreate.Quantity,
-                TransactionTypeId = 2 
-            };
-
-            
-            
-            transaction = Transaction.Create( _db, transaction);
-            
-            transaction.Product = _db.Products.Find(transaction.ProductId);
-            return Ok(transaction);
-        }
-        [HttpPost("OUTOFDATE",Name = "OutofDate")]
-
-        public ActionResult OutofDate([FromBody] TransactionCreate transactionCreate)
-        {
-            Transaction transaction = new Transaction
-            {
-                ProductId = transactionCreate.ProductId,
-                Quantity = transactionCreate.Quantity,
-                TransactionTypeId = 3
-            };
-
-            
-            
-            transaction = Transaction.Create( _db, transaction);
-            
-            transaction.Product = _db.Products.Find(transaction.ProductId);
-            return Ok(transaction);
-
-
-        }
-
-        
-        [HttpGet(Name = "ViewTransection")]
-        public ActionResult ViewTransection()
-            {
-                List<Transaction> transactions = Transaction.GetAll(_db);
-                
-                return Ok( transactions );
-            }
     
 
-
+        [HttpGet(Name = "ViewTransactionType")]
+        public ActionResult ViewTransactionType()
+            {
+                // .OrderBy(q => q.Salary) เรียงจากน้อยไปมาก
+                // .OrderByDescending(q => q.Salary) เรียงจากมากไปน้อย
+                List<TransactionType> transactiontype = TransactionType.GetAll(_db).OrderBy(q => q.Id).ToList();
+                return Ok(transactiontype);
+            }
 
 
     // [HttpGet("GetAll",Name = "GetAllEmployees")]
@@ -113,13 +82,13 @@ public class TransactionController : ControllerBase
     //     });
     // }
 
-    [HttpGet("{id}",Name = "GetTransactionsByID")]
+    // [HttpGet("GetBy/{id}", Name = "GetEmployeeByID")]
 
-    public ActionResult GetEmployeeById(int id)
-    {
-        Transaction transaction = Transaction.GetById(_db, id);
-        return Ok(transaction);
-    }
+    // public ActionResult GetEmployeeById(int id)
+    // {
+    //     Employee employee = Employee.GetById(_db, id);
+    //     return Ok(employee);
+    // }
 
     // [HttpPut("UpdateEveryThing", Name = "UpdateEmployee")]
 
@@ -186,14 +155,13 @@ public class TransactionController : ControllerBase
     //     });
     // }
 
-    [HttpDelete("{id}",Name ="CancelTransaction")]
+    // [HttpDelete("{id}",Name ="DeleteEmployee")]
 
-    public ActionResult CancelTransaction(int id)
-    {
-        Transaction transaction = Transaction.Delete(_db, id);
-        return Ok(transaction);
-    }
-
+    // public ActionResult DeleteEmployee(int id)
+    // {
+    //     Employee employee = Employee.Delete(_db, id);
+    //     return Ok(employee);
+    // }
 
     //  [HttpPost("CreateEmployeeRequest",Name = "CreateEmployeeRequest")]
 

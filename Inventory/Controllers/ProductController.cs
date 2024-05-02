@@ -5,23 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 using Inventory.Models;
-// using OfficeOpenXml;
-// using PdfSharpCore.Drawing;
-// using PdfSharpCore.Pdf;
-// using Xceed.Document.NET;
-// using Xceed.Words.NET;
-
-// [Authorize]
-// [Route("api/[controller]")]
 [ApiController]
-// public class HelloWorldController : ControllerBase
-// {
-//     [HttpGet]
-//     public IActionResult Get()
-//     {
-//         return Ok("Helo World");
-//     }
-// }
+
 
 [Route("products")]
 public class ProductController : ControllerBase
@@ -64,14 +49,13 @@ public class ProductController : ControllerBase
             StockQuantity = productCreate.StockQuantity,
             Price = productCreate.Price
         };
-
         product.CreateDate = DateTime.Now;
         product.UpdateDate = DateTime.Now;
         product = Product.Create(_db, product);
         return Ok(product);
     }
 
-    [HttpGet("ViewAllProduct", Name = "ViewAllProduct")]
+    [HttpGet(Name = "ViewAllProduct")]
 
     public ActionResult GetAllProduct()
     {
@@ -82,7 +66,7 @@ public class ProductController : ControllerBase
     }
 
 
-    [HttpPut("UpdateProduct" , Name = "UpdateProduct")]
+    [HttpPut(Name = "UpdateProduct")]
 
     public ActionResult PUT([FromBody] ProductUpdate product)
     {
@@ -139,7 +123,7 @@ public class ProductController : ControllerBase
         return Ok(StatusCode(200));
     }
 
-    [HttpDelete("DeleteProduct",Name ="DeleteProduct")]
+    [HttpDelete(Name ="DeleteProduct")]
 
     public ActionResult DeleteProduct(int id)
     {
@@ -147,6 +131,14 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
+
+     [HttpGet("GetBy/{id}", Name = "GetProductId")]
+
+    public ActionResult GetProductById(int id)
+    {
+        Product product = Product.GetById(_db, id);
+        return Ok(product);
+    }
 
     // [HttpPut("UpdateEveryThing", Name = "UpdateEmployee")]
 
@@ -247,11 +239,11 @@ public class ProductController : ControllerBase
 
 
 
-    // [HttpGet("search/{name}",Name = "SearchEmployeeByName")]
+    // [HttpGet(Name = "Search")]
 
-    // public ActionResult SearchEmployeeByName(string name)
+    // public ActionResult Search(string name)
     // {
-    //     List<Employee> employees = Employee.Search(_db,name);
+    //     List<Product> products = Product.Search(_db,name);
     //     if(employees.Count == 0)
     //     {
     //         return NotFound(new Response{

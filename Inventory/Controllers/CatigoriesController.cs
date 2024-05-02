@@ -56,7 +56,7 @@ public class CatigoriesController : ControllerBase
         }
     
 
-        [HttpGet( "ViewCatigories" , Name = "ViewCatigories")]
+        [HttpGet(Name = "ViewCatigories")]
         public ActionResult ViewCatigories()
             {
                 // .OrderBy(q => q.Salary) เรียงจากน้อยไปมาก

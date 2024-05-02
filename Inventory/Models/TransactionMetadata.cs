@@ -48,7 +48,7 @@ namespace Inventory.Models
 
          public static List<Transaction> GetAll(YourDbContextClassName db)
     {
-        List<Transaction> returnThis = db.Transactions.Where(q=> q.IsDeleted != true).Include(p => p.Product).ToList();
+        List<Transaction> returnThis = db.Transactions.Where(q=> q.IsDeleted != true).Include(p => p.Product).Include(t => t.TransactionType).ToList();
         
         
             foreach(var transaction in returnThis)
@@ -59,7 +59,22 @@ namespace Inventory.Models
         return returnThis;
     }
 
+    public static Transaction Delete(YourDbContextClassName db, int id)
+        {
+            Transaction transaction= GetById(db,id);
+            transaction.IsDeleted = true;
+            // db.Employees.Remove(employee); เป็นวิธีการลบแบบให้หายไปเลย
+            db.Entry(transaction).State = EntityState.Modified; // Soft Delete
+            db.SaveChanges();
 
+            return transaction;
+        }
+
+    public static Transaction GetById(YourDbContextClassName db,int id)
+        {
+            Transaction? returnThis = db.Transactions.Where(q => q.Id == id && q.IsDeleted != true).FirstOrDefault();
+            return returnThis ?? new Transaction();
+        }
     }
 
     
