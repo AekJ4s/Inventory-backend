@@ -41,7 +41,13 @@ public class TransactionController : ControllerBase
             
             transaction = Transaction.Create( _db, transaction);
             
+            
             transaction.Product = _db.Products.Find(transaction.ProductId);
+
+             if(transaction.Product != null ){ 
+            transaction.Product.StockQuantity = transaction.Product.StockQuantity-transactionCreate.Quantity ;
+            Product.Update(_db, transaction.Product); 
+            }
             return Ok(transaction);
         }
         [HttpPost("FILLPRODUCT",Name = "FillProduct")]
@@ -60,6 +66,11 @@ public class TransactionController : ControllerBase
             transaction = Transaction.Create( _db, transaction);
             
             transaction.Product = _db.Products.Find(transaction.ProductId);
+
+            if(transaction.Product != null ){ 
+            transaction.Product.StockQuantity = transaction.Product.StockQuantity+transactionCreate.Quantity ;
+            Product.Update(_db, transaction.Product); 
+            }
             return Ok(transaction);
         }
         [HttpPost("OUTOFDATE",Name = "OutofDate")]
@@ -73,11 +84,19 @@ public class TransactionController : ControllerBase
                 TransactionTypeId = 3
             };
 
+
+            
             
             
             transaction = Transaction.Create( _db, transaction);
-            
+        
             transaction.Product = _db.Products.Find(transaction.ProductId);
+            if(transaction.Product != null ){ 
+            transaction.Product.StockQuantity = transaction.Product.StockQuantity-transactionCreate.Quantity ;
+            Product.Update(_db, transaction.Product); 
+            }
+            
+            
             return Ok(transaction);
 
 

@@ -23,5 +23,7 @@ public partial class Product
 
     public bool? IsDeleted { get; set; }
 
+    public virtual Catigory? Category { get; set; }
+
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

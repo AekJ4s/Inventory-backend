@@ -18,7 +18,7 @@ public partial class YourDbContextClassName : DbContext
 
     public virtual DbSet<Catigory> Catigories { get; set; }
 
-    public virtual DbSet<Models.Product> Products { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
@@ -38,13 +38,17 @@ public partial class YourDbContextClassName : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
         });
 
-        modelBuilder.Entity<Models.Product>(entity =>
+        modelBuilder.Entity<Product>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("Products_Catigories");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
@@ -54,6 +58,14 @@ public partial class YourDbContextClassName : DbContext
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.TransactionTypeId).HasColumnName("TransactionTypeID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("Product  x Transactions");
+
+            entity.HasOne(d => d.TransactionType).WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.TransactionTypeId)
+                .HasConstraintName("Type x Transactions");
         });
 
         modelBuilder.Entity<TransactionType>(entity =>

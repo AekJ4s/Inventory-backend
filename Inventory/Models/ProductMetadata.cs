@@ -46,7 +46,7 @@ namespace Inventory.Models
 
     public static List<Product> GetAll(YourDbContextClassName db)
     {
-        List<Product> returnThis = db.Products.Where(q=> q.IsDeleted != true).ToList();
+        List<Product> returnThis = db.Products.Where(q=> q.IsDeleted != true).Include(c=> c.Category ).ToList();
         return returnThis;
     }
 

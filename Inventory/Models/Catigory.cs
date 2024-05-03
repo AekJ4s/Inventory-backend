@@ -14,4 +14,6 @@ public partial class Catigory
     public DateTime? UpdateDate { get; set; }
 
     public bool? IsDeleted { get; set; }
+
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
