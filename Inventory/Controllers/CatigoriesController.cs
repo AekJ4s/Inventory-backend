@@ -11,7 +11,6 @@ using Inventory.Models;
 // using Xceed.Document.NET;
 // using Xceed.Words.NET;
 
-// [Authorize]
 // [Route("api/[controller]")]
 [ApiController]
 // public class HelloWorldController : ControllerBase
@@ -22,7 +21,7 @@ using Inventory.Models;
 //         return Ok("Helo World");
 //     }
 // }
-
+[Authorize]
 [Route("category")]
 public class CatigoriesController : ControllerBase
 {

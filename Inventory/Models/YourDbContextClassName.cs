@@ -18,6 +18,8 @@ public partial class YourDbContextClassName : DbContext
 
     public virtual DbSet<Catigory> Catigories { get; set; }
 
+    public virtual DbSet<Login> Logins { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
@@ -36,6 +38,17 @@ public partial class YourDbContextClassName : DbContext
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<Login>(entity =>
+        {
+            entity.ToTable("Login");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+            entity.Property(e => e.Username).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Product>(entity =>

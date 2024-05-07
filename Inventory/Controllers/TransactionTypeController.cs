@@ -13,6 +13,7 @@ using Inventory.Models;
 
 // [Authorize]
 // [Route("api/[controller]")]
+
 [ApiController]
 // public class HelloWorldController : ControllerBase
 // {
@@ -22,7 +23,7 @@ using Inventory.Models;
 //         return Ok("Helo World");
 //     }
 // }
-
+[Authorize]
 [Route("transactiontype")]
 public class TransactionTypeController : ControllerBase
 {

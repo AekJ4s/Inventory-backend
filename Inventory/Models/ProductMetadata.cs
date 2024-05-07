@@ -29,6 +29,21 @@ namespace Inventory.Models
     public bool IsDeleted {get; set;}
     }
 
+    public class ProductCreate
+    {
+
+
+        public string? Name { get; set; }
+
+        public string? Description { get; set; }
+
+        public int? CategoryID { get; set; }
+
+        public int? StockQuantity { get; set; }
+
+        public int? Price { get; set; }
+    }
+
     [MetadataType(typeof(ProductMetadata))]
     
     public partial class Product

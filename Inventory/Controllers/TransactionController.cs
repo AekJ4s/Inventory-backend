@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Inventory.Models;
 [ApiController]
-
+[Authorize]
 [Route("transaction")]
 public class TransactionController : ControllerBase
 {

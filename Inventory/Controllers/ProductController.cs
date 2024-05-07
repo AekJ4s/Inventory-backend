@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Inventory.Models;
 [ApiController]
 
-
+[Authorize]
 [Route("products")]
 public class ProductController : ControllerBase
 {
@@ -20,21 +20,17 @@ public class ProductController : ControllerBase
         _logger = logger;
     }
 
-    public struct ProductCreate
+    
+
+ [HttpGet(Name = "ViewAllProduct")]
+
+    public ActionResult GetAllProduct()
     {
-
-
-        public string? Name { get; set; }
-
-        public string? Description { get; set; }
-
-        public int? CategoryID { get; set; }
-
-        public int? StockQuantity { get; set; }
-
-        public int? Price { get; set; }
+        // .OrderBy(q => q.Salary) เรียงจากน้อยไปมาก
+        // .OrderByDescending(q => q.Salary) เรียงจากมากไปน้อย
+        List<Product> product = Product.GetAll(_db).OrderByDescending(q => q.StockQuantity).ToList();
+        return Ok(product);
     }
-
 
 
     [HttpPost(Name = "CreateProduct")]
@@ -55,17 +51,8 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
-    [HttpGet(Name = "ViewAllProduct")]
-
-    public ActionResult GetAllProduct()
-    {
-        // .OrderBy(q => q.Salary) เรียงจากน้อยไปมาก
-        // .OrderByDescending(q => q.Salary) เรียงจากมากไปน้อย
-        List<Product> product = Product.GetAll(_db).OrderByDescending(q => q.StockQuantity).ToList();
-        return Ok(product);
-    }
-
-
+   
+        
     [HttpPut(Name = "UpdateProduct")]
 
     public ActionResult PUT([FromBody] ProductUpdate product)
